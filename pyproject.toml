@@ -29,6 +29,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ragas>=0.4.3",
+    "ruff>=0.17.0",
 ]
 
 # Sous Linux (image Docker), PyTorch en version CPU : évite plusieurs Go de bibliothèques CUDA
@@ -46,3 +47,13 @@ members = []
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]  # permet `import normalize`, `import rag`, `import api` depuis les tests
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["*.ipynb"]  # le notebook est un support d'exploration, hors lint
+
+[tool.ruff.lint]
+# E/W : style PEP 8, F : erreurs (imports inutilisés, variables non définies...),
+# I : ordre des imports, B : bugs fréquents, UP : syntaxe Python moderne
+select = ["E", "W", "F", "I", "B", "UP"]

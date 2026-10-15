@@ -27,23 +27,27 @@ from normalize import load_documents  # données brutes -> Documents LangChain (
 load_dotenv(find_dotenv(usecwd=True), override=True)
 
 # --- Emplacements des données (chemins relatifs à la racine du projet) ---
-INDEX_DIR = Path("data/faiss_index")   # index FAISS sauvegardé (créé par le notebook ou /reindex)
+INDEX_DIR = Path("data/faiss_index")  # index FAISS sauvegardé (créé par le notebook ou /reindex)
 EVENTS_FILE = Path("data/events.json")  # événements bruts téléchargés depuis OpenAgenda
 
 # --- Consignes données au LLM ---
 # Le message « system » fixe les règles ; le message « human » contient le contexte et la question.
 # Les règles limitent les hallucinations : répondre UNIQUEMENT à partir du contexte,
 # citer les sources, et ne jamais transformer un tarif inconnu en « gratuit ».
-PROMPT = ChatPromptTemplate.from_messages([
-    ("system",
-     "Tu es un assistant qui renseigne sur des événements culturels et publics.\n"
-     "Réponds en français, de façon naturelle et concise, en t'appuyant UNIQUEMENT sur les "
-     "événements du contexte. Si le contexte ne permet pas de répondre, dis-le clairement.\n"
-     "Pour chaque événement cité, indique le titre, la date, le lieu et le lien source.\n"
-     "Si le tarif est « Non précisé », ne dis jamais que l'événement est gratuit.\n"
-     "Date du jour : {today}."),  # la date permet d'interpréter « demain », « ce week-end »...
-    ("human", "Contexte :\n{context}\n\nQuestion : {question}"),
-])
+PROMPT = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "Tu es un assistant qui renseigne sur des événements culturels et publics.\n"
+            "Réponds en français, de façon naturelle et concise, en t'appuyant UNIQUEMENT sur les "
+            "événements du contexte. Si le contexte ne permet pas de répondre, dis-le clairement.\n"
+            "Pour chaque événement cité, indique le titre, la date, le lieu et le lien source.\n"
+            "Si le tarif est « Non précisé », ne dis jamais que l'événement est gratuit.\n"
+            "Date du jour : {today}.",
+        ),  # la date permet d'interpréter « demain », « ce week-end »...
+        ("human", "Contexte :\n{context}\n\nQuestion : {question}"),
+    ]
+)
 
 
 class E5Embeddings(HuggingFaceEmbeddings):
@@ -173,8 +177,6 @@ class RagEngine:
         # Le contexte = textes des événements (titre, date, lieu, tarif, description), séparés par un trait
         context = "\n\n---\n\n".join(doc.page_content for doc, _ in hits)
         # Remplit le prompt avec la date du jour, le contexte et la question
-        messages = PROMPT.invoke(
-            {"today": date.today().strftime("%d/%m/%Y"), "context": context, "question": question}
-        )
+        messages = PROMPT.invoke({"today": date.today().strftime("%d/%m/%Y"), "context": context, "question": question})
         # Appel à l'API OpenAI (payant) ; .content = texte de la réponse
         return self._get_llm().invoke(messages).content

@@ -194,9 +194,7 @@ def _metadata(event: Event) -> dict:
     return {k: v for k, v in meta.items() if v is not None}
 
 
-_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=MAX_DESCRIPTION_CHARS, chunk_overlap=CHUNK_OVERLAP
-)
+_splitter = RecursiveCharacterTextSplitter(chunk_size=MAX_DESCRIPTION_CHARS, chunk_overlap=CHUNK_OVERLAP)
 
 
 def event_to_documents(event: Event) -> list[Document]:
@@ -229,7 +227,8 @@ def load_documents(path: Path = INPUT) -> tuple[list[Document], list[str]]:
 def main():
     documents, errors = load_documents()
     events = {d.metadata["event_id"] for d in documents}
-    prices = {s: sum(d.metadata["price_status"] == s and d.metadata["chunk_index"] == 0 for d in documents) for s in PriceStatus}
+    first_chunks = [d for d in documents if d.metadata["chunk_index"] == 0]  # un par événement
+    prices = {s: sum(d.metadata["price_status"] == s for d in first_chunks) for s in PriceStatus}
     print(f"{len(events)} événements → {len(documents)} documents, {len(errors)} rejetés")
     print(f"tarifs (par événement) : {prices}")
     for err in errors:

@@ -1,7 +1,7 @@
 """Tests de normalize.py : nettoyage, tarif, schéma Pydantic, conversion en Documents."""
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -95,8 +95,8 @@ def test_normalize_event_remplit_tous_les_champs(raw_event):
 
 def test_normalize_event_convertit_les_dates(raw_event):
     event = normalize_event(raw_event())
-    assert event.start == datetime(2026, 10, 8, 7, 0, tzinfo=timezone.utc)
-    assert event.end == datetime(2026, 10, 8, 15, 0, tzinfo=timezone.utc)
+    assert event.start == datetime(2026, 10, 8, 7, 0, tzinfo=UTC)
+    assert event.end == datetime(2026, 10, 8, 15, 0, tzinfo=UTC)
 
 
 def test_normalize_event_combine_description_courte_et_longue(raw_event):
@@ -145,7 +145,7 @@ def test_metadonnees_plates_et_sans_valeur_inconnue(raw_event):
     assert all(isinstance(v, (str, int, float)) for v in meta.values())
     assert "region" not in meta  # inconnu = clé absente (et non None)
     assert meta["keywords"] == "concert, jazz"
-    assert meta["start_ts"] == int(datetime(2026, 10, 8, 7, tzinfo=timezone.utc).timestamp())
+    assert meta["start_ts"] == int(datetime(2026, 10, 8, 7, tzinfo=UTC).timestamp())
     assert meta["price_status"] == "unknown"
 
 

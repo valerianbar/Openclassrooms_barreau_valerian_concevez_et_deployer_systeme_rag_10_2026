@@ -67,14 +67,16 @@ def run_rag(engine: RagEngine, samples: list[dict]) -> list[dict]:
     for i, sample in enumerate(samples, 1):
         hits = engine.search(sample["question"], k=K)
         response = engine.generate(sample["question"], hits)
-        rows.append({
-            "question": sample["question"],
-            "reference": sample["reference"],
-            "response": response,
-            "contexts": [doc.page_content for doc, _ in hits],
-            # métrique simple, sans LLM : l'événement attendu a-t-il été retrouvé ?
-            "retrieval_hit": float(sample["event_id"] in {doc.metadata["event_id"] for doc, _ in hits}),
-        })
+        rows.append(
+            {
+                "question": sample["question"],
+                "reference": sample["reference"],
+                "response": response,
+                "contexts": [doc.page_content for doc, _ in hits],
+                # métrique simple, sans LLM : l'événement attendu a-t-il été retrouvé ?
+                "retrieval_hit": float(sample["event_id"] in {doc.metadata["event_id"] for doc, _ in hits}),
+            }
+        )
         print(f"  [{i}/{len(samples)}] {sample['question']}")
     return rows
 
@@ -87,16 +89,31 @@ async def score_rows(rows: list[dict]) -> None:
 
     # Chaque métrique : (nom, objet Ragas, fonction qui construit ses arguments)
     metrics = [
-        ("faithfulness", Faithfulness(llm=llm),
-         lambda r: dict(user_input=r["question"], response=r["response"], retrieved_contexts=r["contexts"])),
-        ("answer_relevancy", AnswerRelevancy(llm=llm, embeddings=embeddings),
-         lambda r: dict(user_input=r["question"], response=r["response"])),
-        ("context_precision", ContextPrecision(llm=llm),
-         lambda r: dict(user_input=r["question"], reference=r["reference"], retrieved_contexts=r["contexts"])),
-        ("context_recall", ContextRecall(llm=llm),
-         lambda r: dict(user_input=r["question"], reference=r["reference"], retrieved_contexts=r["contexts"])),
-        ("factual_correctness", FactualCorrectness(llm=llm),
-         lambda r: dict(response=r["response"], reference=r["reference"])),
+        (
+            "faithfulness",
+            Faithfulness(llm=llm),
+            lambda r: dict(user_input=r["question"], response=r["response"], retrieved_contexts=r["contexts"]),
+        ),
+        (
+            "answer_relevancy",
+            AnswerRelevancy(llm=llm, embeddings=embeddings),
+            lambda r: dict(user_input=r["question"], response=r["response"]),
+        ),
+        (
+            "context_precision",
+            ContextPrecision(llm=llm),
+            lambda r: dict(user_input=r["question"], reference=r["reference"], retrieved_contexts=r["contexts"]),
+        ),
+        (
+            "context_recall",
+            ContextRecall(llm=llm),
+            lambda r: dict(user_input=r["question"], reference=r["reference"], retrieved_contexts=r["contexts"]),
+        ),
+        (
+            "factual_correctness",
+            FactualCorrectness(llm=llm),
+            lambda r: dict(response=r["response"], reference=r["reference"]),
+        ),
     ]
     semaphore = asyncio.Semaphore(MAX_CONCURRENCY)
 
@@ -109,18 +126,14 @@ async def score_rows(rows: list[dict]) -> None:
                 row[name] = math.nan
                 print(f"  ! {name} a échoué pour « {row['question'][:40]} » : {exc}")
 
-    await asyncio.gather(*(
-        score_one(row, name, metric, make_args)
-        for row in rows
-        for name, metric, make_args in metrics
-    ))
+    await asyncio.gather(
+        *(score_one(row, name, metric, make_args) for row in rows for name, metric, make_args in metrics)
+    )
 
 
 def main() -> int:
     # --help affiche la docstring du module sans lancer l'évaluation (payante)
-    argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    ).parse_args()
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     if not os.getenv("OPENAI_API_KEY"):
         print("OPENAI_API_KEY absente du .env : impossible d'appeler le LLM.")
         return 1

@@ -118,18 +118,50 @@ uv run pytest
 
 Couverture du code : `uv run pytest --cov=normalize --cov=rag --cov=api --cov-report=term-missing` (93 %).
 
+## Qualité du code (lint)
+
+Le code est vérifié et formaté avec [Ruff](https://docs.astral.sh/ruff/) (configuration dans `pyproject.toml`) :
+
+```bash
+uv run ruff check .
+```
+
+```bash
+uv run ruff format .
+```
+
+Règles actives : style PEP 8 (`E`, `W`), erreurs (`F`), ordre des imports (`I`), bugs fréquents (`B`), syntaxe Python moderne (`UP`). Le notebook est exclu du lint.
+
 ## CI/CD (GitHub Actions)
 
 Le pipeline `.github/workflows/ci-cd.yml` se lance à chaque push et pull request :
 
-1. **Tests unitaires** : installation des dépendances avec `uv sync --locked`, puis `pytest` avec la couverture.
-2. **Image Docker** (si les tests passent) : construction de l'image, puis test de fumée du conteneur (`/health`, `/search`, `/docs`, et `/ask` qui doit répondre 503 sans clé OpenAI).
-3. **Publication** (uniquement sur `main`) : l'image est publiée sur GitHub Container Registry, avec les tags `latest` et `sha-<commit>`.
+```
+lint ──┐
+       ├──> docker (build + test de fumée) ──> publish (push sur ghcr.io)
+tests ─┘
+```
+
+1. **Lint** : `ruff check` et `ruff format --check` ; les erreurs s'affichent directement sur les lignes concernées dans GitHub.
+2. **Tests unitaires** : installation des dépendances avec `uv sync --locked`, puis `pytest` avec la couverture.
+3. **Image Docker** (si le lint et les tests passent) : construction de l'image, puis test de fumée du conteneur (`/health`, `/search`, `/docs`, et `/ask` qui doit répondre 503 sans clé OpenAI).
+4. **Publication sur ghcr.io** (push sur `main` ou tag de version, jamais pour une pull request) :
+
+| Déclencheur          | Tags publiés                 |
+|----------------------|------------------------------|
+| push sur `main`      | `latest`, `sha-<commit>`     |
+| tag git `v1.2.3`     | `1.2.3`, `1.2`, `sha-<commit>` |
 
 Aucun secret n'est à configurer : les tests n'appellent pas OpenAI et la publication utilise le `GITHUB_TOKEN` fourni par GitHub. Récupérer l'image publiée :
 
 ```bash
 docker pull ghcr.io/valerianbar/openclassrooms_barreau_valerian_concevez_et_deployer_systeme_rag_10_2026:latest
+```
+
+Publier une version :
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
 ```
 
 L'évaluation Ragas n'est pas dans le pipeline : elle est payante et nécessite la clé OpenAI.

@@ -28,8 +28,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="API RAG — Événements OpenAgenda",
     description=(
-        "Recherche sémantique et questions-réponses sur des événements OpenAgenda "
-        "(FAISS + embeddings locaux + OpenAI)."
+        "Recherche sémantique et questions-réponses sur des événements OpenAgenda (FAISS + embeddings locaux + OpenAI)."
     ),
     version="0.1.0",
     lifespan=lifespan,
@@ -53,6 +52,7 @@ Engine = Annotated[RagEngine, Depends(get_engine)]
 
 class EventHit(BaseModel):
     """Un événement renvoyé par l'API (issu des métadonnées du document)."""
+
     event_id: str
     title: str
     start: str | None = Field(None, description="Date de début (ISO 8601)")
@@ -68,6 +68,7 @@ class EventHit(BaseModel):
 
 class AskRequest(BaseModel):
     """Corps JSON de POST /ask : seule la question est obligatoire."""
+
     question: str = Field(min_length=3, description="Question posée au LLM, en langage naturel")
     k: int = Field(3, ge=1, le=10, description="Nombre d'événements fournis au LLM")  # entre 1 et 10
     city: str | None = Field(None, description="Filtre facultatif : ville")
@@ -99,21 +100,24 @@ ASK_EXAMPLES = {
 
 class AskResponse(BaseModel):
     """Réponse de POST /ask : le texte du LLM et les événements utilisés pour le produire."""
+
     answer: str
     sources: list[EventHit]
 
 
 class ReindexResponse(BaseModel):
     """Bilan de la réindexation."""
-    documents: int       # nombre de documents (morceaux) indexés
-    events: int          # nombre d'événements distincts
+
+    documents: int  # nombre de documents (morceaux) indexés
+    events: int  # nombre d'événements distincts
     rejected: list[str]  # événements rejetés à la normalisation, avec la raison
 
 
 class HealthResponse(BaseModel):
     """État du service."""
-    status: str           # "ok" ou "index vide"
-    indexed_chunks: int   # nombre de morceaux dans l'index FAISS
+
+    status: str  # "ok" ou "index vide"
+    indexed_chunks: int  # nombre de morceaux dans l'index FAISS
     llm_configured: bool  # True si OPENAI_API_KEY est renseignée
 
 
@@ -126,10 +130,17 @@ def _to_hit(doc, score: float) -> EventHit:
     m = doc.metadata
     # .get() pour les champs facultatifs : une métadonnée absente signifie « inconnu »
     return EventHit(
-        event_id=m["event_id"], title=m["title"], start=m.get("start"), end=m.get("end"),
-        city=m.get("city"), venue=m.get("venue"), region=m.get("region"),
-        price_status=m["price_status"], price_details=m.get("price_details"),
-        source=m.get("source"), score=score,
+        event_id=m["event_id"],
+        title=m["title"],
+        start=m.get("start"),
+        end=m.get("end"),
+        city=m.get("city"),
+        venue=m.get("venue"),
+        region=m.get("region"),
+        price_status=m["price_status"],
+        price_details=m.get("price_details"),
+        source=m.get("source"),
+        score=score,
     )
 
 
@@ -173,7 +184,7 @@ def search(
     try:
         hits = engine.search(q, k=k, **filters)
     except LookupError as exc:  # index absent
-        raise HTTPException(status_code=503, detail=str(exc))
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
     return [_to_hit(doc, score) for doc, score in hits]
 
 
@@ -188,16 +199,16 @@ def ask(body: Annotated[AskRequest, Body(openapi_examples=ASK_EXAMPLES)], engine
     filters = {f: getattr(body, f) for f in FILTER_FIELDS if getattr(body, f) is not None}
     try:
         hits = engine.search(body.question, k=body.k, **filters)  # 1. retrouver les événements
-        text = engine.generate(body.question, hits)                # 2. faire rédiger la réponse
+        text = engine.generate(body.question, hits)  # 2. faire rédiger la réponse
     except (LookupError, MissingApiKey) as exc:
         # index absent ou clé OpenAI manquante : service indisponible
-        raise HTTPException(status_code=503, detail=str(exc))
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:  # erreurs de l'API OpenAI (quota, clé invalide...)
         status = getattr(exc, "status_code", None)  # code HTTP renvoyé par OpenAI, s'il existe
         raise HTTPException(
             status_code=429 if status == 429 else 502,  # 429 : quota dépassé ; 502 : autre erreur du fournisseur
             detail=f"Erreur du fournisseur LLM : {getattr(exc, 'message', None) or exc}",
-        )
+        ) from exc  # `from exc` : l'erreur d'origine reste visible dans les logs
     return AskResponse(answer=text, sources=[_to_hit(doc, score) for doc, score in hits])
 
 
@@ -207,5 +218,5 @@ def reindex(engine: Engine):
     try:
         documents, events, errors = engine.reindex()
     except (ValueError, FileNotFoundError) as exc:  # aucun document ou fichier absent
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return ReindexResponse(documents=documents, events=events, rejected=errors)

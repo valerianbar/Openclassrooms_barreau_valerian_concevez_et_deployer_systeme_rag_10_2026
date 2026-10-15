@@ -1,10 +1,15 @@
 # Pipeline CI/CD
 #
+#   lint ──┐
+#          ├──> docker (build + test de fumée) ──> publish (push sur ghcr.io)
+#   tests ─┘
+#
 # CI (à chaque push et pull request) :
-#   1. tests   : tests unitaires (pytest) et couverture du code
-#   2. docker  : construction de l'image, puis test de fumée du conteneur
-# CD (seulement sur la branche main, si tout est vert) :
-#   3. publication de l'image sur GitHub Container Registry (ghcr.io)
+#   - lint   : qualité du code avec Ruff (erreurs, style, ordre des imports, formatage)
+#   - tests  : tests unitaires (pytest) et couverture du code
+#   - docker : construction de l'image, puis test de fumée du conteneur
+# CD (push sur main ou tag de version vX.Y.Z, si tout est vert) :
+#   - publish : publication de l'image sur GitHub Container Registry (ghcr.io)
 #
 # Aucun secret n'est nécessaire : les tests n'appellent pas OpenAI, et la publication
 # utilise le jeton GITHUB_TOKEN fourni automatiquement par GitHub Actions.
@@ -14,6 +19,7 @@ name: CI/CD
 on:
   push:
     branches: [main]
+    tags: ["v*"]  # ex. git tag v1.0.0 && git push --tags : publie l'image 1.0.0
   pull_request:
   workflow_dispatch:  # lancement manuel depuis l'onglet Actions
 
@@ -26,6 +32,26 @@ permissions:
   contents: read
 
 jobs:
+  # ------------------------------------------------------------------ CI
+  lint:
+    name: Lint (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.9.8"
+
+      # uvx lance Ruff sans installer les dépendances du projet (rapide).
+      # Même version que dans uv.lock ; la configuration est lue dans pyproject.toml.
+      - name: Vérifier le code (erreurs, style, imports)
+        run: uvx ruff@0.17.0 check --output-format=github .
+
+      - name: Vérifier le formatage
+        run: uvx ruff@0.17.0 format --check --diff .
+
   tests:
     name: Tests unitaires
     runs-on: ubuntu-latest
@@ -46,45 +72,26 @@ jobs:
 
   docker:
     name: Image Docker
-    needs: tests  # l'image n'est construite que si les tests passent
+    needs: [lint, tests]  # l'image n'est construite que si le lint et les tests passent
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write  # nécessaire pour publier sur ghcr.io
-    env:
-      LOCAL_IMAGE: rag-openagenda:test
     steps:
       - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v3
-
-      # ghcr.io exige un nom en minuscules (le nom du dépôt contient des majuscules)
-      - name: Nom de l'image en minuscules
-        run: echo "IMAGE=ghcr.io/$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
-
-      # Noms de l'image publiée : ghcr.io/<propriétaire>/<dépôt>:<commit> et :latest (sur main)
-      - name: Préparer les tags
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.IMAGE }}
-          tags: |
-            type=sha
-            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Construire l'image
         uses: docker/build-push-action@v6
         with:
           context: .
           load: true  # garde l'image en local pour le test de fumée
-          tags: ${{ env.LOCAL_IMAGE }}
+          tags: rag-openagenda:test
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max  # réutilisé par le job publish
 
       # Test de fumée : le conteneur démarre et répond, sans clé OpenAI
       - name: Tester le conteneur
         run: |
-          docker run -d --name rag -p 8000:8000 "$LOCAL_IMAGE"
+          docker run -d --name rag -p 8000:8000 rag-openagenda:test
           for i in $(seq 1 60); do
             curl -sf http://localhost:8000/health && break
             sleep 2
@@ -102,9 +109,41 @@ jobs:
         if: failure()
         run: docker logs rag || true
 
-      # ------------------------------ CD ------------------------------
+  # ------------------------------------------------------------------ CD
+  publish:
+    name: Publication sur ghcr.io
+    needs: docker
+    # pas de publication pour les pull requests : seulement main et les tags de version
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write  # nécessaire pour publier sur ghcr.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # ghcr.io exige un nom en minuscules (le nom du dépôt contient des majuscules)
+      - name: Nom de l'image en minuscules
+        run: echo "IMAGE=ghcr.io/$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+
+      # Tags publiés :
+      #   - sha-<commit> : à chaque publication (permet de revenir à une version précise)
+      #   - latest       : sur main
+      #   - 1.2.3 et 1.2 : sur un tag git v1.2.3
+      - name: Préparer les tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
       - name: Connexion à GitHub Container Registry
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -112,11 +151,23 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publier l'image
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        id: push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha  # réutilise la construction précédente : pas de reconstruction
+          labels: ${{ steps.meta.outputs.labels }}  # relie l'image au dépôt GitHub
+          cache-from: type=gha  # réutilise la construction du job docker : pas de reconstruction
+
+      - name: Résumé
+        run: |
+          {
+            echo "### Image publiée sur ghcr.io"
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+            echo "Digest : \`${{ steps.push.outputs.digest }}\`"
+            echo
+            echo "Récupérer l'image : \`docker pull ${{ env.IMAGE }}:latest\`"
+          } >> "$GITHUB_STEP_SUMMARY"

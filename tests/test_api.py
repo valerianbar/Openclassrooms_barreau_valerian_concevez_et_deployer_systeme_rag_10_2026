@@ -1,10 +1,10 @@
 """Tests de api.py : routes, validation des entrées, traduction des erreurs en codes HTTP."""
 
 import pytest
+from conftest import FakeLLM
 from fastapi.testclient import TestClient
 
 from api import app, get_engine
-from conftest import FakeLLM
 
 
 @pytest.fixture
@@ -60,12 +60,15 @@ def test_search_avec_filtre(client):
     assert [h["event_id"] for h in hits] == ["2"]
 
 
-@pytest.mark.parametrize("params", [
-    {"q": "x"},                              # requête trop courte
-    {"q": "concert", "k": 0},                # k hors limites
-    {"q": "concert", "price_status": "gratuit"},  # valeur non autorisée
-    {},                                      # q obligatoire
-])
+@pytest.mark.parametrize(
+    "params",
+    [
+        {"q": "x"},  # requête trop courte
+        {"q": "concert", "k": 0},  # k hors limites
+        {"q": "concert", "price_status": "gratuit"},  # valeur non autorisée
+        {},  # q obligatoire
+    ],
+)
 def test_search_entree_invalide(client, params):
     assert client.get("/search", params=params).status_code == 422
 

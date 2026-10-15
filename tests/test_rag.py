@@ -3,9 +3,9 @@
 import json
 
 import pytest
+from conftest import FakeLLM, make_raw_event
 from langchain_core.embeddings import DeterministicFakeEmbedding
 
-from conftest import FakeLLM, make_raw_event
 from rag import MissingApiKey, RagEngine
 
 # ---------------------------------------------------------------- indexation
@@ -20,9 +20,7 @@ def test_reindex_compte_documents_et_evenements(engine):
 
 
 def test_index_sauvegarde_puis_recharge(engine):
-    reloaded = RagEngine(
-        embeddings=engine.embeddings, index_dir=engine.index_dir, events_file=engine.events_file
-    )
+    reloaded = RagEngine(embeddings=engine.embeddings, index_dir=engine.index_dir, events_file=engine.events_file)
     assert reloaded.indexed_chunks == engine.indexed_chunks
 
 
@@ -36,7 +34,9 @@ def test_sans_index_la_recherche_echoue(tmp_path):
 def test_reindex_sans_document_echoue(tmp_path):
     events_file = tmp_path / "events.json"
     events_file.write_text("[]", encoding="utf-8")
-    rag_engine = RagEngine(embeddings=DeterministicFakeEmbedding(size=8), index_dir=tmp_path / "i", events_file=events_file)
+    rag_engine = RagEngine(
+        embeddings=DeterministicFakeEmbedding(size=8), index_dir=tmp_path / "i", events_file=events_file
+    )
     with pytest.raises(ValueError):
         rag_engine.reindex()
 
@@ -62,11 +62,14 @@ def test_recherche_renvoie_des_scores_tries(engine):
     assert scores == sorted(scores)  # distance : du plus proche au plus lointain
 
 
-@pytest.mark.parametrize("filters, expected", [
-    ({"city": "Caen"}, {"2"}),
-    ({"price_status": "free"}, {"1"}),
-    ({"price_status": "unknown"}, {"3", "4"}),
-])
+@pytest.mark.parametrize(
+    "filters, expected",
+    [
+        ({"city": "Caen"}, {"2"}),
+        ({"price_status": "free"}, {"1"}),
+        ({"price_status": "unknown"}, {"3", "4"}),
+    ],
+)
 def test_recherche_avec_filtres(engine, filters, expected):
     hits = engine.search("événement", k=5, **filters)
     assert {doc.metadata["event_id"] for doc, _ in hits} == expected
