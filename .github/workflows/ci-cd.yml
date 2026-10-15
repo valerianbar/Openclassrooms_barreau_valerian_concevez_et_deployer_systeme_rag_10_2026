@@ -1,0 +1,122 @@
+# Pipeline CI/CD
+#
+# CI (à chaque push et pull request) :
+#   1. tests   : tests unitaires (pytest) et couverture du code
+#   2. docker  : construction de l'image, puis test de fumée du conteneur
+# CD (seulement sur la branche main, si tout est vert) :
+#   3. publication de l'image sur GitHub Container Registry (ghcr.io)
+#
+# Aucun secret n'est nécessaire : les tests n'appellent pas OpenAI, et la publication
+# utilise le jeton GITHUB_TOKEN fourni automatiquement par GitHub Actions.
+
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:  # lancement manuel depuis l'onglet Actions
+
+# Si un nouveau push arrive sur la même branche, le pipeline précédent est annulé
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests unitaires
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.9.8"
+          enable-cache: true  # met en cache les paquets téléchargés entre deux pipelines
+
+      - name: Installer les dépendances (versions exactes de uv.lock)
+        run: uv sync --locked
+
+      - name: Lancer les tests
+        run: uv run pytest --cov=normalize --cov=rag --cov=api --cov-report=term-missing
+
+  docker:
+    name: Image Docker
+    needs: tests  # l'image n'est construite que si les tests passent
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write  # nécessaire pour publier sur ghcr.io
+    env:
+      LOCAL_IMAGE: rag-openagenda:test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # ghcr.io exige un nom en minuscules (le nom du dépôt contient des majuscules)
+      - name: Nom de l'image en minuscules
+        run: echo "IMAGE=ghcr.io/$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+
+      # Noms de l'image publiée : ghcr.io/<propriétaire>/<dépôt>:<commit> et :latest (sur main)
+      - name: Préparer les tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Construire l'image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true  # garde l'image en local pour le test de fumée
+          tags: ${{ env.LOCAL_IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Test de fumée : le conteneur démarre et répond, sans clé OpenAI
+      - name: Tester le conteneur
+        run: |
+          docker run -d --name rag -p 8000:8000 "$LOCAL_IMAGE"
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8000/health && break
+            sleep 2
+          done
+          echo
+          curl -sf http://localhost:8000/health | grep -q '"status":"ok"'
+          curl -sf "http://localhost:8000/search?q=festival&k=2" | grep -q '"event_id"'
+          curl -sf -o /dev/null http://localhost:8000/docs
+          # sans clé OpenAI, /ask doit répondre 503 (et non planter)
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8000/ask \
+            -H 'Content-Type: application/json' -d '{"question": "Quels concerts ?"}')" = "503"
+          echo "Test de fumée réussi"
+
+      - name: Logs du conteneur en cas d'échec
+        if: failure()
+        run: docker logs rag || true
+
+      # ------------------------------ CD ------------------------------
+      - name: Connexion à GitHub Container Registry
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publier l'image
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha  # réutilise la construction précédente : pas de reconstruction

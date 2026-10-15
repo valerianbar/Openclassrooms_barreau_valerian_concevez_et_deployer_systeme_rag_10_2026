@@ -26,6 +26,8 @@ dependencies = [
 dev = [
     "ipykernel>=6.31.0",
     "langchain-mistralai>=1.1.6",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
     "ragas>=0.4.3",
 ]
 
@@ -40,3 +42,7 @@ explicit = true
 
 [tool.uv.workspace]
 members = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]  # permet `import normalize`, `import rag`, `import api` depuis les tests

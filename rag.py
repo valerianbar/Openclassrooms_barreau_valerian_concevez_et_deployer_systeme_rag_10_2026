@@ -15,6 +15,7 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
+from langchain_core.embeddings import Embeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -71,21 +72,32 @@ class RagEngine:
     car charger le modèle d'embeddings prend plusieurs secondes.
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        embeddings: Embeddings | None = None,
+        index_dir: Path = INDEX_DIR,
+        events_file: Path = EVENTS_FILE,
+    ) -> None:
+        # Les paramètres permettent aux tests d'utiliser de faux embeddings et un dossier
+        # temporaire ; l'API garde les valeurs par défaut.
         # Modèle d'embeddings local et multilingue : gratuit, sans clé, bon en français.
         # Il est téléchargé au premier lancement puis mis en cache sur le disque.
-        self.embeddings = E5Embeddings(
-            model_name="intfloat/multilingual-e5-small",
-            encode_kwargs={"normalize_embeddings": True},  # vecteurs de norme 1 : distances comparables
-        )
+        if embeddings is None:
+            embeddings = E5Embeddings(
+                model_name="intfloat/multilingual-e5-small",
+                encode_kwargs={"normalize_embeddings": True},  # vecteurs de norme 1 : distances comparables
+            )
+        self.embeddings = embeddings
+        self.index_dir = Path(index_dir)
+        self.events_file = Path(events_file)
         self.vectorstore: FAISS | None = None  # None tant qu'aucun index n'est disponible
         self._llm = None  # LLM créé seulement au premier besoin (voir _get_llm)
-        if INDEX_DIR.exists():
+        if self.index_dir.exists():
             # Recharge l'index sauvegardé. allow_dangerous_deserialization est nécessaire
             # car l'index contient un fichier pickle : acceptable ici, car c'est un fichier
             # que l'on a produit nous-mêmes (ne jamais charger un index venant d'ailleurs).
             self.vectorstore = FAISS.load_local(
-                str(INDEX_DIR), self.embeddings, allow_dangerous_deserialization=True
+                str(self.index_dir), self.embeddings, allow_dangerous_deserialization=True
             )
 
     @property
@@ -96,13 +108,13 @@ class RagEngine:
     def reindex(self) -> tuple[int, int, list[str]]:
         """Reconstruit l'index à partir de data/events.json. Renvoie (documents, événements, erreurs)."""
         # Normalisation + conversion en Documents ; les événements invalides sont listés dans `errors`
-        documents, errors = load_documents(EVENTS_FILE)
+        documents, errors = load_documents(self.events_file)
         if not documents:
             raise ValueError("Aucun document à indexer")
         # Calcule les embeddings de tous les documents et construit un nouvel index
         self.vectorstore = FAISS.from_documents(documents, self.embeddings)
         # Sauvegarde sur disque : il sera rechargé au prochain démarrage de l'API
-        self.vectorstore.save_local(str(INDEX_DIR))
+        self.vectorstore.save_local(str(self.index_dir))
         # nombre d'événements distincts (un événement peut produire plusieurs documents)
         return len(documents), len({d.metadata["event_id"] for d in documents}), errors
 

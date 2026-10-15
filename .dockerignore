@@ -19,3 +19,7 @@ evaluation
 evaluate_ragas.py
 main.py
 README.md
+tests
+.github
+.pytest_cache
+.coverage

@@ -33,6 +33,8 @@ Le prompt interdit au LLM de présenter comme gratuit un événement dont le tar
 | `api.py`             | API FastAPI (Swagger sur `/docs`)                                 |
 | `evaluate_ragas.py`  | Évaluation du RAG avec Ragas                                      |
 | `evaluation/`        | Jeu de test Ragas et résultats                                    |
+| `tests/`             | Tests unitaires (pytest)                                          |
+| `.github/workflows/` | Pipeline CI/CD (GitHub Actions)                                   |
 | `Dockerfile`         | Image Docker de l'API                                             |
 | `.dockerignore`      | Fichiers exclus de l'image (dont `.env`)                          |
 | `data/`              | Données brutes et index FAISS (générés)                           |
@@ -99,6 +101,38 @@ curl -X POST http://127.0.0.1:8000/ask -H "Content-Type: application/json" \
 
 Erreurs : `503` si l'index ou `OPENAI_API_KEY` manque, `429` si le quota OpenAI est dépassé, `502` pour les autres erreurs du fournisseur.
 
+
+## Tests unitaires
+
+```bash
+uv run pytest
+```
+
+69 tests, exécutés en environ une seconde, **sans réseau** : les embeddings sont remplacés par des vecteurs déterministes et le LLM par une réponse simulée (aucun modèle téléchargé, aucun appel à OpenAI).
+
+| Fichier                   | Ce qui est testé                                                              |
+|---------------------------|-------------------------------------------------------------------------------|
+| `tests/test_normalize.py` | nettoyage HTML, tarif (`free`/`paid`/`unknown`), schéma Pydantic, Documents, données personnelles exclues |
+| `tests/test_rag.py`       | indexation, recherche regroupée par événement, filtres, prompt envoyé au LLM, clé absente |
+| `tests/test_api.py`       | routes, validation des entrées (422), erreurs traduites en 503 / 429 / 502, Swagger |
+
+Couverture du code : `uv run pytest --cov=normalize --cov=rag --cov=api --cov-report=term-missing` (93 %).
+
+## CI/CD (GitHub Actions)
+
+Le pipeline `.github/workflows/ci-cd.yml` se lance à chaque push et pull request :
+
+1. **Tests unitaires** : installation des dépendances avec `uv sync --locked`, puis `pytest` avec la couverture.
+2. **Image Docker** (si les tests passent) : construction de l'image, puis test de fumée du conteneur (`/health`, `/search`, `/docs`, et `/ask` qui doit répondre 503 sans clé OpenAI).
+3. **Publication** (uniquement sur `main`) : l'image est publiée sur GitHub Container Registry, avec les tags `latest` et `sha-<commit>`.
+
+Aucun secret n'est à configurer : les tests n'appellent pas OpenAI et la publication utilise le `GITHUB_TOKEN` fourni par GitHub. Récupérer l'image publiée :
+
+```bash
+docker pull ghcr.io/valerianbar/openclassrooms_barreau_valerian_concevez_et_deployer_systeme_rag_10_2026:latest
+```
+
+L'évaluation Ragas n'est pas dans le pipeline : elle est payante et nécessite la clé OpenAI.
 
 ## Docker
 
