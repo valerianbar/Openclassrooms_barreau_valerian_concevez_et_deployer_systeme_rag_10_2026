@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Quel festival de musique électronique a lieu à Caen ?",
+    "reference": "Le NDK Festival 2026, 6e édition, se déroule à Caen du 7 au 11 octobre 2026, au 9 Cours Caffarelli. C'est un festival electro, avec des billets de 6,30 € à 62,68 €.",
+    "event_id": "86272739"
+  },
+  {
+    "question": "Que propose la Féria de Bordeaux à la Bodega Los Amigos ?",
+    "reference": "La Féria de Bordeaux a lieu les 7 et 8 octobre 2026 à la Bodega Los Amigos, 24 rue de la Faïencerie à Bordeaux. Au programme : taureau mécanique, pesée de jambon, tir à la corde, lancer d'espadrille et DJ set, avec un happy hour à 3 € le verre de 18 h à 21 h.",
+    "event_id": "26204627"
+  },
+  {
+    "question": "Y a-t-il un événement gratuit à Marseille ?",
+    "reference": "Oui, Hors Cadre, le rendez-vous des « gens de l'ombre », artisans de lumière du collectif CameraCrews, se tient à La Mûrisserie, 44 cours Julien à Marseille, du 7 au 21 octobre 2026. Il est gratuit.",
+    "event_id": "98335889"
+  },
+  {
+    "question": "Quelle soirée hip-hop gratuite a lieu à Paris pendant la Fashion Week ?",
+    "reference": "La soirée PURE, au Jangal, 5 avenue de l'Opéra à Paris, le 8 octobre 2026, avec DJ Max's et DJ Maïki aux platines. L'entrée est gratuite.",
+    "event_id": "24035673"
+  },
+  {
+    "question": "En quoi consiste la résidence Atlas des absences ?",
+    "reference": "C'est une résidence de recherche en architecture : Hugo Haoran Hu, lauréat de l'appel à candidature « Furieuse en vie », est accueilli pendant 8 semaines à Salins-les-Bains, du 8 octobre au 4 décembre 2026, pour construire avec les habitants, par le dessin, une mythologie contemporaine de la Furieuse. L'événement est gratuit.",
+    "event_id": "37182593"
+  },
+  {
+    "question": "Qu'est-ce que BIG 2026 et faut-il payer pour y participer ?",
+    "reference": "BIG 2026 (Bpifrance Inno Génération) est le rendez-vous de l'innovation et de l'entrepreneuriat organisé le 8 octobre 2026 à l'Accor Arena, à Paris, avec plus de 1000 intervenants et 500 sessions. L'inscription est gratuite et donne accès à l'ensemble des conférences, ateliers et espaces d'exposition.",
+    "event_id": "34458911"
+  },
+  {
+    "question": "L'événement Aurora à Tourcoing est-il gratuit ?",
+    "reference": "Le tarif n'est pas précisé : on ne peut pas affirmer que l'événement est gratuit. La description mentionne des billets en prévente à prix réduit. Aurora, deuxième édition de Nord Star Product, est une journée consacrée au product, au design et à l'intelligence artificielle, à EuraCreative à Tourcoing.",
+    "event_id": "75268884"
+  },
+  {
+    "question": "Quel est le prix de la formation de tuteur et maître d'apprentissage à Rennes ?",
+    "reference": "La formation coûte 350 € par personne. Elle dure 7 heures, donne lieu à une attestation et se tient le 8 octobre 2026 à l'IUT de Rennes, site Clos Courtel, organisée par l'Université de Rennes.",
+    "event_id": "45389685"
+  },
+  {
+    "question": "Quels parcours propose la Marche bleue de Bar-le-Duc ?",
+    "reference": "Trois parcours au choix : 1,5 km (adapté aux personnes à mobilité réduite), 3 km et 6 km, au départ du lycée Émile Zola, le 8 octobre 2026, dans le cadre de la Semaine bleue. La participation est gratuite.",
+    "event_id": "43188288"
+  },
+  {
+    "question": "Le grand public peut-il participer au Concours des miels d'Occitanie ?",
+    "reference": "Non, le concours est réservé aux professionnels et l'inscription est obligatoire. Il s'agit du 4e concours des Miels d'Occitanie, organisé par le Groupement Qualité des Miels d'Occitanie le 8 octobre 2026 à Auzeville-Tolosane.",
+    "event_id": "58139466"
+  },
+  {
+    "question": "Quel est le thème de la Fête de la science à Saint-Étienne-du-Rouvray ?",
+    "reference": "Le thème de l'édition 2026 est « Saveurs savantes ». Elle se tient à l'UFR Sciences et Techniques de Saint-Étienne-du-Rouvray du 8 au 10 octobre 2026, avec des animations, expositions, conférences, visites et jeux. L'entrée est gratuite.",
+    "event_id": "19580293"
+  }
+]

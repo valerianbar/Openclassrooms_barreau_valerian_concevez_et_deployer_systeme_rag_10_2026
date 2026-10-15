@@ -1,0 +1,12 @@
+question,faithfulness,answer_relevancy,context_precision,context_recall,factual_correctness,retrieval_hit
+Quel festival de musique électronique a lieu à Caen ?,1.0,0.37860747250852717,0.9999999999,1.0,0.5,1.0
+Que propose la Féria de Bordeaux à la Bodega Los Amigos ?,1.0,0.7836349569227387,0.9999999999,1.0,0.84,1.0
+Y a-t-il un événement gratuit à Marseille ?,0.875,0.7907104806225478,0.9999999999,1.0,0.73,1.0
+Quelle soirée hip-hop gratuite a lieu à Paris pendant la Fashion Week ?,1.0,0.23396163073739973,0.9999999999,1.0,0.4,1.0
+En quoi consiste la résidence Atlas des absences ?,0.9,0.7984688286809879,0.9999999999,0.75,0.13,1.0
+Qu'est-ce que BIG 2026 et faut-il payer pour y participer ?,1.0,0.7189514902643751,0.99999999995,1.0,0.88,1.0
+L'événement Aurora à Tourcoing est-il gratuit ?,0.8571428571428571,0.0,0.9999999999,0.3333333333333333,0.4,1.0
+Quel est le prix de la formation de tuteur et maître d'apprentissage à Rennes ?,1.0,0.998231281381671,0.9999999999,1.0,0.44,1.0
+Quels parcours propose la Marche bleue de Bar-le-Duc ?,1.0,0.7295425646428967,0.9999999999,1.0,0.44,1.0
+Le grand public peut-il participer au Concours des miels d'Occitanie ?,1.0,0.8409583844756808,0.9999999999,1.0,0.25,1.0
+Quel est le thème de la Fête de la science à Saint-Étienne-du-Rouvray ?,1.0,0.9425523270533341,0.9999999999,1.0,0.29,1.0

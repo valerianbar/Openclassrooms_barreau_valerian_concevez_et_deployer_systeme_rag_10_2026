@@ -31,6 +31,10 @@ Le prompt interdit au LLM de présenter comme gratuit un événement dont le tar
 | `normalize.py`       | Schéma Pydantic, nettoyage, conversion en `Document`              |
 | `rag.py`             | Moteur RAG : index FAISS, recherche, génération OpenAI            |
 | `api.py`             | API FastAPI (Swagger sur `/docs`)                                 |
+| `evaluate_ragas.py`  | Évaluation du RAG avec Ragas                                      |
+| `evaluation/`        | Jeu de test Ragas et résultats                                    |
+| `Dockerfile`         | Image Docker de l'API                                             |
+| `.dockerignore`      | Fichiers exclus de l'image (dont `.env`)                          |
 | `data/`              | Données brutes et index FAISS (générés)                           |
 | `.env`               | Configuration et clés (non versionné)                             |
 
@@ -95,6 +99,46 @@ curl -X POST http://127.0.0.1:8000/ask -H "Content-Type: application/json" \
 
 Erreurs : `503` si l'index ou `OPENAI_API_KEY` manque, `429` si le quota OpenAI est dépassé, `502` pour les autres erreurs du fournisseur.
 
+
+## Docker
+
+L'image contient l'API, l'index FAISS (`data/`) et le modèle d'embeddings : le conteneur démarre en quelques secondes, sans téléchargement. La clé OpenAI n'est **pas** dans l'image, elle est passée au lancement.
+
+```bash
+docker build -t rag-openagenda .
+```
+
+```bash
+docker run -d --name rag -p 8000:8000 --env-file .env rag-openagenda
+```
+
+Swagger : <http://localhost:8000/docs>. Arrêt : `docker rm -f rag`.
+
+- Image d'environ 2,9 Go (PyTorch CPU ~650 Mo, modèle d'embeddings ~470 Mo).
+- Seules les dépendances de l'API sont installées : le notebook et Ragas sont dans le groupe `dev` de `pyproject.toml` (`uv sync` les installe en local, pas dans l'image).
+- L'API tourne avec un utilisateur non-root ; `docker ps` affiche son état de santé (`healthy`).
+- Un `POST /reindex` réécrit l'index **dans le conteneur** : il est perdu si le conteneur est supprimé. Pour le conserver, monter un volume : `-v ./data:/app/data`.
+
+## Évaluation (Ragas)
+
+```bash
+uv run python evaluate_ragas.py
+```
+
+Le script pose les 11 questions de `evaluation/ragas_dataset.json` au RAG (comme `/ask`), puis un LLM juge (`gpt-4o-mini`, modifiable avec `RAGAS_JUDGE_MODEL`) note les réponses. Coût : quelques centimes. Le script renvoie un code d'erreur si une moyenne passe sous son seuil.
+
+| Métrique              | Ce qu'elle mesure                                               | Seuil | Résultat |
+|-----------------------|-----------------------------------------------------------------|-------|----------|
+| `faithfulness`        | la réponse ne contient que des faits présents dans le contexte  | 0,8   | 0,97     |
+| `answer_relevancy`    | la réponse répond à la question posée                           | 0,7   | 0,66     |
+| `context_precision`   | les contextes utiles sont classés en tête                       | 0,7   | 1,00     |
+| `context_recall`      | les contextes contiennent les infos de la réponse attendue      | 0,7   | 0,92     |
+| `factual_correctness` | la réponse est d'accord avec la réponse attendue                | 0,5   | 0,51     |
+| `retrieval_hit`       | l'événement attendu est retrouvé (sans LLM)                     | 0,8   | 1,00     |
+
+Résultats détaillés (réponses, contextes, scores) : `evaluation/ragas_results.json` et `.csv`.
+
+`answer_relevancy` est sous son seuil pour deux raisons : certaines réponses recopient les champs (titre, lieu, tarif...) au lieu de répondre d'abord à la question, et Ragas note 0 une réponse prudente comme « tarif non précisé », alors que c'est le comportement voulu.
 
 ## Métadonnées des documents
 

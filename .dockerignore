@@ -1,0 +1,21 @@
+# Fichiers exclus du contexte de construction Docker
+
+# Secrets : la clé OpenAI est passée au lancement (--env-file .env), jamais copiée dans l'image
+.env
+
+# Environnement local et outils
+.venv
+.git
+.gitignore
+.claude
+__pycache__
+*.py[oc]
+.DS_Store
+
+# Inutiles pour faire tourner l'API
+*.ipynb
+.ipynb_checkpoints
+evaluation
+evaluate_ragas.py
+main.py
+README.md
