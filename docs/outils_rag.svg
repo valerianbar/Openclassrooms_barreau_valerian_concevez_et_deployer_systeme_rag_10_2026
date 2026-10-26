@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1104" viewBox="0 0 1600 1104">
+<rect width="1600" height="1104" fill="#FFFFFF"/>
+<text x="40" y="58" font-family="Helvetica, Arial, sans-serif" font-size="34" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Les outils du système RAG et leur rôle</text>
+<text x="40" y="92" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Assistant de questions-réponses sur les événements OpenAgenda</text>
+<circle cx="1002.4" cy="70" r="8" fill="#FF5A4E"/>
+<text x="1016.4" y="75" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">indexation et recherche</text>
+<circle cx="1208.0" cy="70" r="8" fill="#FFB703"/>
+<text x="1222.0" y="75" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">génération</text>
+<circle cx="1320.0" cy="70" r="8" fill="#8E7DBE"/>
+<text x="1334.0" y="75" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">API et déploiement</text>
+<circle cx="1489.6" cy="70" r="8" fill="#1FA99B"/>
+<text x="1503.6" y="75" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">qualité</text>
+<text x="40" y="150" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Indexation</text>
+<text x="165.0" y="150" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#6C757D" font-weight="normal" font-style="italic" text-anchor="start">une fois au départ, ou via POST /reindex</text>
+<rect x="40.0" y="170" width="276.8" height="302" rx="14" fill="#F2EFF8"/>
+<rect x="40.0" y="170" width="276.8" height="50" rx="14" fill="#1B1530"/>
+<rect x="40.0" y="200" width="276.8" height="20" fill="#1B1530"/>
+<circle cx="67.0" cy="195" r="15" fill="#FF5A4E"/>
+<text x="67.0" y="200.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">1</text>
+<text x="92.0" y="201" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Source</text>
+<rect x="52.0" y="234" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="66.0" y="258" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">OpenAgenda</text>
+<text x="66.0" y="279" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Événements publics</text>
+<text x="66.0" y="298" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">(200 à venir)</text>
+<rect x="52.0" y="312" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="66.0" y="336" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">API OpenDataSoft</text>
+<text x="66.0" y="357" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Accès sans clé,</text>
+<text x="66.0" y="376" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">pages de 100</text>
+<line x1="322.8" y1="195" x2="338.8" y2="195" stroke="#FF5A4E" stroke-width="3"/>
+<polygon points="336.8,188 346.8,195 336.8,202" fill="#FF5A4E"/>
+<rect x="350.8" y="170" width="276.8" height="302" rx="14" fill="#F2EFF8"/>
+<rect x="350.8" y="170" width="276.8" height="50" rx="14" fill="#1B1530"/>
+<rect x="350.8" y="200" width="276.8" height="20" fill="#1B1530"/>
+<circle cx="377.8" cy="195" r="15" fill="#FF5A4E"/>
+<text x="377.8" y="200.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">2</text>
+<text x="402.8" y="201" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Normalisation</text>
+<rect x="362.8" y="234" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="376.8" y="258" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Pydantic</text>
+<text x="376.8" y="279" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Schéma Event, validation,</text>
+<text x="376.8" y="298" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">tarif free/paid/unknown</text>
+<rect x="362.8" y="312" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="376.8" y="336" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">BeautifulSoup</text>
+<text x="376.8" y="357" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Nettoyage du HTML</text>
+<text x="376.8" y="376" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">des descriptions</text>
+<line x1="633.6" y1="195" x2="649.6" y2="195" stroke="#FF5A4E" stroke-width="3"/>
+<polygon points="647.6,188 657.6,195 647.6,202" fill="#FF5A4E"/>
+<rect x="661.6" y="170" width="276.8" height="302" rx="14" fill="#F2EFF8"/>
+<rect x="661.6" y="170" width="276.8" height="50" rx="14" fill="#1B1530"/>
+<rect x="661.6" y="200" width="276.8" height="20" fill="#1B1530"/>
+<circle cx="688.6" cy="195" r="15" fill="#FF5A4E"/>
+<text x="688.6" y="200.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">3</text>
+<text x="713.6" y="201" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Documents</text>
+<rect x="673.6" y="234" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="687.6" y="258" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">LangChain Core</text>
+<text x="687.6" y="279" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Document = texte lisible</text>
+<text x="687.6" y="298" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">+ métadonnées</text>
+<rect x="673.6" y="312" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="687.6" y="336" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">LangChain Text Splitters</text>
+<text x="687.6" y="357" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Découpe les descriptions</text>
+<text x="687.6" y="376" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">de plus de 1 000 caractères</text>
+<line x1="944.4000000000001" y1="195" x2="960.4000000000001" y2="195" stroke="#FF5A4E" stroke-width="3"/>
+<polygon points="958.4000000000001,188 968.4000000000001,195 958.4000000000001,202" fill="#FF5A4E"/>
+<rect x="972.4000000000001" y="170" width="276.8" height="302" rx="14" fill="#F2EFF8"/>
+<rect x="972.4000000000001" y="170" width="276.8" height="50" rx="14" fill="#1B1530"/>
+<rect x="972.4000000000001" y="200" width="276.8" height="20" fill="#1B1530"/>
+<circle cx="999.4000000000001" cy="195" r="15" fill="#FF5A4E"/>
+<text x="999.4000000000001" y="200.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">4</text>
+<text x="1024.4" y="201" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Vectorisation</text>
+<rect x="984.4000000000001" y="234" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="998.4000000000001" y="258" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">multilingual-e5-small</text>
+<text x="998.4000000000001" y="279" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Modèle d'embeddings</text>
+<text x="998.4000000000001" y="298" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">local et multilingue</text>
+<rect x="984.4000000000001" y="312" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="998.4000000000001" y="336" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">sentence-transformers</text>
+<text x="998.4000000000001" y="357" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Calcule les vecteurs</text>
+<text x="998.4000000000001" y="376" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">(PyTorch CPU)</text>
+<rect x="984.4000000000001" y="390" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="998.4000000000001" y="414" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">langchain-huggingface</text>
+<text x="998.4000000000001" y="435" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Branche le modèle</text>
+<text x="998.4000000000001" y="454" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">sur LangChain</text>
+<line x1="1255.2" y1="195" x2="1271.2" y2="195" stroke="#FF5A4E" stroke-width="3"/>
+<polygon points="1269.2,188 1279.2,195 1269.2,202" fill="#FF5A4E"/>
+<rect x="1283.2" y="170" width="276.8" height="302" rx="14" fill="#F2EFF8"/>
+<rect x="1283.2" y="170" width="276.8" height="50" rx="14" fill="#1B1530"/>
+<rect x="1283.2" y="200" width="276.8" height="20" fill="#1B1530"/>
+<circle cx="1310.2" cy="195" r="15" fill="#FF5A4E"/>
+<text x="1310.2" y="200.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">5</text>
+<text x="1335.2" y="201" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Index vectoriel</text>
+<rect x="1295.2" y="234" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="1309.2" y="258" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">FAISS</text>
+<text x="1309.2" y="279" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Stocke les 210 vecteurs,</text>
+<text x="1309.2" y="298" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">recherche par similarité</text>
+<rect x="1295.2" y="312" width="252.8" height="68" rx="10" fill="#FFFFFF"/>
+<text x="1309.2" y="336" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">langchain-community</text>
+<text x="1309.2" y="357" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Intègre FAISS à LangChain,</text>
+<text x="1309.2" y="376" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">sauvegarde sur disque</text>
+<text x="40" y="532" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Requête</text>
+<text x="136.5" y="532" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#6C757D" font-weight="normal" font-style="italic" text-anchor="start">à chaque question posée à l'API (POST /ask)</text>
+<rect x="40.0" y="552" width="354.5" height="284" rx="14" fill="#F2EFF8"/>
+<rect x="40.0" y="552" width="354.5" height="50" rx="14" fill="#1B1530"/>
+<rect x="40.0" y="582" width="354.5" height="20" fill="#1B1530"/>
+<circle cx="67.0" cy="577" r="15" fill="#8E7DBE"/>
+<text x="67.0" y="582.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">6</text>
+<text x="92.0" y="583" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">API</text>
+<rect x="52.0" y="616" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="66.0" y="640" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">FastAPI</text>
+<text x="66.0" y="661" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Routes /health, /search,</text>
+<text x="66.0" y="680" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">/ask, /reindex</text>
+<rect x="52.0" y="694" width="330.5" height="49" rx="10" fill="#FFFFFF"/>
+<text x="66.0" y="718" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Uvicorn</text>
+<text x="66.0" y="739" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Serveur HTTP de l'API</text>
+<rect x="52.0" y="753" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="66.0" y="777" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Swagger (OpenAPI)</text>
+<text x="66.0" y="798" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Documentation interactive</text>
+<text x="66.0" y="817" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">sur /docs</text>
+<line x1="400.5" y1="577" x2="416.5" y2="577" stroke="#FF5A4E" stroke-width="3"/>
+<polygon points="414.5,570 424.5,577 414.5,584" fill="#FF5A4E"/>
+<rect x="428.5" y="552" width="354.5" height="284" rx="14" fill="#F2EFF8"/>
+<rect x="428.5" y="552" width="354.5" height="50" rx="14" fill="#1B1530"/>
+<rect x="428.5" y="582" width="354.5" height="20" fill="#1B1530"/>
+<circle cx="455.5" cy="577" r="15" fill="#FF5A4E"/>
+<text x="455.5" y="582.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">7</text>
+<text x="480.5" y="583" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Recherche</text>
+<rect x="440.5" y="616" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="454.5" y="640" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">E5 + FAISS</text>
+<text x="454.5" y="661" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Question vectorisée avec le</text>
+<text x="454.5" y="680" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">même modèle, plus proches voisins</text>
+<rect x="440.5" y="694" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="454.5" y="718" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Filtres sur métadonnées</text>
+<text x="454.5" y="739" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Ville, région, tarif ;</text>
+<text x="454.5" y="758" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">1 résultat par événement</text>
+<line x1="789.0" y1="577" x2="805.0" y2="577" stroke="#FFB703" stroke-width="3"/>
+<polygon points="803.0,570 813.0,577 803.0,584" fill="#FFB703"/>
+<rect x="817.0" y="552" width="354.5" height="284" rx="14" fill="#F2EFF8"/>
+<rect x="817.0" y="552" width="354.5" height="50" rx="14" fill="#1B1530"/>
+<rect x="817.0" y="582" width="354.5" height="20" fill="#1B1530"/>
+<circle cx="844.0" cy="577" r="15" fill="#FFB703"/>
+<text x="844.0" y="582.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">8</text>
+<text x="869.0" y="583" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Prompt</text>
+<rect x="829.0" y="616" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="843.0" y="640" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">ChatPromptTemplate</text>
+<text x="843.0" y="661" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Consignes + événements</text>
+<text x="843.0" y="680" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">trouvés + question</text>
+<rect x="829.0" y="694" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="843.0" y="718" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Règles anti-invention</text>
+<text x="843.0" y="739" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Contexte uniquement, sources,</text>
+<text x="843.0" y="758" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">tarif inconnu ≠ gratuit</text>
+<line x1="1177.5" y1="577" x2="1193.5" y2="577" stroke="#FFB703" stroke-width="3"/>
+<polygon points="1191.5,570 1201.5,577 1191.5,584" fill="#FFB703"/>
+<rect x="1205.5" y="552" width="354.5" height="284" rx="14" fill="#F2EFF8"/>
+<rect x="1205.5" y="552" width="354.5" height="50" rx="14" fill="#1B1530"/>
+<rect x="1205.5" y="582" width="354.5" height="20" fill="#1B1530"/>
+<circle cx="1232.5" cy="577" r="15" fill="#FFB703"/>
+<text x="1232.5" y="582.5" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">9</text>
+<text x="1257.5" y="583" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">Génération</text>
+<rect x="1217.5" y="616" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="1231.5" y="640" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">OpenAI gpt-4o-mini</text>
+<text x="1231.5" y="661" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Rédige la réponse en</text>
+<text x="1231.5" y="680" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">français, température 0,2</text>
+<rect x="1217.5" y="694" width="330.5" height="49" rx="10" fill="#FFFFFF"/>
+<text x="1231.5" y="718" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">langchain-openai</text>
+<text x="1231.5" y="739" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Client ChatOpenAI</text>
+<rect x="1217.5" y="753" width="330.5" height="68" rx="10" fill="#FFFFFF"/>
+<text x="1231.5" y="777" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">python-dotenv</text>
+<text x="1231.5" y="798" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Clé et modèle lus</text>
+<text x="1231.5" y="817" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">dans le fichier .env</text>
+<text x="40" y="896" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Autour du RAG</text>
+<text x="193.5" y="896" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#6C757D" font-weight="normal" font-style="italic" text-anchor="start">mesurer, tester, livrer</text>
+<rect x="40.0" y="916" width="354.5" height="152" rx="14" fill="#F2EFF8"/>
+<circle cx="64.0" cy="943" r="9" fill="#1FA99B"/>
+<text x="82.0" y="949" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Évaluation</text>
+<text x="60.0" y="982" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Ragas</tspan><tspan fill="#4A3F6B" dx="6">— 6 métriques de qualité du RAG</tspan></text>
+<text x="60.0" y="1009" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Juge</tspan><tspan fill="#4A3F6B" dx="6">— gpt-4o-mini, text-embedding-3-small</tspan></text>
+<text x="60.0" y="1036" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Jeu de test</tspan><tspan fill="#4A3F6B" dx="6">— 11 questions et réponses attendues</tspan></text>
+<rect x="428.5" y="916" width="354.5" height="152" rx="14" fill="#F2EFF8"/>
+<circle cx="452.5" cy="943" r="9" fill="#1FA99B"/>
+<text x="470.5" y="949" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Tests et qualité</text>
+<text x="448.5" y="982" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">pytest</tspan><tspan fill="#4A3F6B" dx="6">— 69 tests unitaires, sans réseau</tspan></text>
+<text x="448.5" y="1009" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">pytest-cov</tspan><tspan fill="#4A3F6B" dx="6">— 93 % du code couvert</tspan></text>
+<text x="448.5" y="1036" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Ruff</tspan><tspan fill="#4A3F6B" dx="6">— lint et formatage du code</tspan></text>
+<rect x="817.0" y="916" width="354.5" height="152" rx="14" fill="#F2EFF8"/>
+<circle cx="841.0" cy="943" r="9" fill="#8E7DBE"/>
+<text x="859.0" y="949" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Environnement</text>
+<text x="837.0" y="982" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">uv</tspan><tspan fill="#4A3F6B" dx="6">— dépendances figées (uv.lock)</tspan></text>
+<text x="837.0" y="1009" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Docker</tspan><tspan fill="#4A3F6B" dx="6">— image de l'API, modèle inclus</tspan></text>
+<text x="837.0" y="1036" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Jupyter</tspan><tspan fill="#4A3F6B" dx="6">— notebook d'exploration</tspan></text>
+<rect x="1205.5" y="916" width="354.5" height="152" rx="14" fill="#F2EFF8"/>
+<circle cx="1229.5" cy="943" r="9" fill="#8E7DBE"/>
+<text x="1247.5" y="949" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">CI/CD</text>
+<text x="1225.5" y="982" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">GitHub Actions</tspan><tspan fill="#4A3F6B" dx="6">— lint, tests et build</tspan></text>
+<text x="1225.5" y="1009" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">Test de fumée</tspan><tspan fill="#4A3F6B" dx="6">— le conteneur doit répondre</tspan></text>
+<text x="1225.5" y="1036" font-family="Helvetica, Arial, sans-serif" font-size="14"><tspan font-weight="bold" fill="#1B1530">ghcr.io</tspan><tspan fill="#4A3F6B" dx="6">— publication de l'image</tspan></text>
+</svg>

@@ -11,6 +11,8 @@ Assistant de questions-réponses sur des événements culturels et publics issus
 5. **Recherche** : similarité sémantique avec filtres sur les métadonnées, résultats regroupés par événement.
 6. **Génération** : les 3 événements les plus proches sont envoyés à un LLM OpenAI (`gpt-4o-mini` par défaut) qui répond en français et cite titre, date, lieu et lien source.
 
+![Les outils du système RAG et leur rôle](docs/outils_rag.svg)
+
 ### Gestion du tarif
 
 Un prix absent ne veut pas dire « gratuit ». Le champ `price.status` prend trois valeurs :
@@ -38,6 +40,7 @@ Le prompt interdit au LLM de présenter comme gratuit un événement dont le tar
 | `Dockerfile`         | Image Docker de l'API                                             |
 | `.dockerignore`      | Fichiers exclus de l'image (dont `.env`)                          |
 | `data/`              | Données brutes et index FAISS (générés)                           |
+| `docs/`              | Schémas : outils du RAG et métriques Ragas (SVG et PNG)           |
 | `.env`               | Configuration et clés (non versionné)                             |
 
 ## Installation
@@ -199,12 +202,19 @@ Le script pose les 11 questions de `evaluation/ragas_dataset.json` au RAG (comme
 | `answer_relevancy`    | la réponse répond à la question posée                           | 0,7   | 0,66     |
 | `context_precision`   | les contextes utiles sont classés en tête                       | 0,7   | 1,00     |
 | `context_recall`      | les contextes contiennent les infos de la réponse attendue      | 0,7   | 0,92     |
-| `factual_correctness` | la réponse est d'accord avec la réponse attendue                | 0,5   | 0,51     |
+| `factual_correctness` | la réponse est d'accord avec la réponse attendue                | 0,5   | 0,48     |
 | `retrieval_hit`       | l'événement attendu est retrouvé (sans LLM)                     | 0,8   | 1,00     |
 
 Résultats détaillés (réponses, contextes, scores) : `evaluation/ragas_results.json` et `.csv`.
 
-`answer_relevancy` est sous son seuil pour deux raisons : certaines réponses recopient les champs (titre, lieu, tarif...) au lieu de répondre d'abord à la question, et Ragas note 0 une réponse prudente comme « tarif non précisé », alors que c'est le comportement voulu.
+![Évaluation Ragas : score, seuil et explication de chaque métrique](docs/metriques_ragas.svg)
+
+Deux métriques sont sous leur seuil :
+
+- `answer_relevancy` (0,66) : certaines réponses recopient les champs (titre, lieu, tarif...) au lieu de répondre d'abord à la question, et Ragas note 0 une réponse prudente comme « tarif non précisé », alors que c'est le comportement voulu.
+- `factual_correctness` (0,48) : les réponses sont plus courtes ou plus détaillées que la réponse attendue, ce qui fait baisser le score même quand les faits sont justes.
+
+Le juge étant un LLM, les scores varient d'un passage à l'autre : `factual_correctness` a donné 0,51 puis 0,48 sur deux passages identiques.
 
 ## Métadonnées des documents
 
@@ -215,6 +225,5 @@ Les dates existent en ISO (`start`) et en timestamp (`start_ts`) pour faciliter 
 ## Limites connues
 
 - La source ne renseigne ni la catégorie (0 %) ni le tarif (environ 6 % des événements) ; les mots-clés servent de substitut pour la catégorie.
-- Un événement est rejeté à la normalisation car son titre est vide.
 - Les 200 événements sont les premiers à venir par ordre de date : ils sont concentrés sur quelques jours et en grande partie issus de France Travail.
 - Les coordonnées des contributeurs (e-mail, téléphone) présentes dans les données brutes ne sont pas reprises dans les documents.

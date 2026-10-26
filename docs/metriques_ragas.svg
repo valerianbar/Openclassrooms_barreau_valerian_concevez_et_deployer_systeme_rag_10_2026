@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1118" viewBox="0 0 1600 1118" role="img" aria-labelledby="t d">
+<title id="t">Évaluation Ragas : 4 métriques sur 6 atteignent leur seuil</title>
+<desc id="d">faithfulness 0,97 (seuil 0,80) ; answer_relevancy 0,66 (seuil 0,70) ; context_precision 1,00 (seuil 0,70) ; context_recall 0,92 (seuil 0,70) ; factual_correctness 0,48 (seuil 0,50) ; retrieval_hit 1,00 (seuil 0,80)</desc>
+<rect width="1600" height="1118" fill="#FFFFFF"/>
+<text x="40" y="58" font-family="Helvetica, Arial, sans-serif" font-size="32" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Évaluation Ragas : 4 métriques sur 6 atteignent leur seuil</text>
+<text x="40" y="92" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">11 questions sur de vrais événements · juge gpt-4o-mini · score de 0 à 1 (1 = parfait)</text>
+<rect x="1040" y="58" width="18" height="14" rx="3" fill="#1FA99B"/>
+<text x="1066" y="70" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">seuil atteint</text>
+<rect x="1180" y="58" width="18" height="14" rx="3" fill="#FF5A4E"/>
+<text x="1206" y="70" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">sous le seuil</text>
+<line x1="1330" y1="54" x2="1330" y2="76" stroke="#1B1530" stroke-width="2.5"/>
+<text x="1340" y="70" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">seuil minimal de la métrique</text>
+<text x="64" y="150" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#6C757D" font-weight="bold" font-style="normal" text-anchor="start">Métrique</text>
+<text x="1010" y="150" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#6C757D" font-weight="bold" font-style="normal" text-anchor="start">Ce qu'elle mesure</text>
+<text x="390" y="150" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6C757D" font-weight="normal" font-style="normal" text-anchor="middle">0</text>
+<text x="580.0" y="150" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6C757D" font-weight="normal" font-style="normal" text-anchor="middle">0,5</text>
+<text x="770" y="150" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6C757D" font-weight="normal" font-style="normal" text-anchor="middle">1</text>
+<line x1="40" y1="164" x2="1560" y2="164" stroke="#E4DFF0" stroke-width="1.5"/>
+<rect x="40" y="178" width="1520" height="40" rx="8" fill="#1B1530"/>
+<text x="60" y="204" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">RECHERCHE</text>
+<text x="175" y="204" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#C9BFEA" font-weight="normal" font-style="italic" text-anchor="start">retrouver les bons événements</text>
+<rect x="40" y="230" width="1520" height="110" rx="10" fill="#F2EFF8"/>
+<text x="64" y="274" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Événement retrouvé</text>
+<text x="64" y="300" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">retrieval_hit</text>
+<rect x="390" y="269" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,269 H766.0 Q770.0,269 770.0,273 V287 Q770.0,291 766.0,291 H390 Z" fill="#1FA99B"><title>retrieval_hit : 1,00 (seuil 0,80)</title></path>
+<line x1="694.0" y1="261" x2="694.0" y2="299" stroke="#1B1530" stroke-width="2.5"/>
+<text x="694.0" y="318" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,8</text>
+<text x="800" y="288" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">1,00</text>
+<circle cx="880" cy="280" r="10" fill="#1FA99B"/>
+<text x="880" y="285" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✓</text>
+<text x="896" y="285" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">atteint</text>
+<text x="1010" y="262" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">L'événement attendu fait-il partie des 3 événements retrouvés ?</text>
+<text x="1010" y="288" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Calcul simple, sans LLM : comparaison des identifiants d'événement.</text>
+<text x="1010" y="314" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : 11 questions sur 11.</text>
+<text x="64" y="392" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Précision du contexte</text>
+<text x="64" y="418" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">context_precision</text>
+<rect x="390" y="387" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,387 H765.9999999637273 Q769.9999999637273,387 769.9999999637273,391 V405 Q769.9999999637273,409 765.9999999637273,409 H390 Z" fill="#1FA99B"><title>context_precision : 1,00 (seuil 0,70)</title></path>
+<line x1="656.0" y1="379" x2="656.0" y2="417" stroke="#1B1530" stroke-width="2.5"/>
+<text x="656.0" y="436" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,7</text>
+<text x="800" y="406" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">1,00</text>
+<circle cx="880" cy="398" r="10" fill="#1FA99B"/>
+<text x="880" y="403" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✓</text>
+<text x="896" y="403" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">atteint</text>
+<text x="1010" y="380" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Les événements utiles pour répondre sont-ils classés en tête ?</text>
+<text x="1010" y="406" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Compare : question, contextes retrouvés et réponse attendue.</text>
+<text x="1010" y="432" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : le bon événement arrive toujours en premier.</text>
+<rect x="40" y="466" width="1520" height="110" rx="10" fill="#F2EFF8"/>
+<text x="64" y="510" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Rappel du contexte</text>
+<text x="64" y="536" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">context_recall</text>
+<rect x="390" y="505" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,505 H734.3333333333334 Q738.3333333333334,505 738.3333333333334,509 V523 Q738.3333333333334,527 734.3333333333334,527 H390 Z" fill="#1FA99B"><title>context_recall : 0,92 (seuil 0,70)</title></path>
+<line x1="656.0" y1="497" x2="656.0" y2="535" stroke="#1B1530" stroke-width="2.5"/>
+<text x="656.0" y="554" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,7</text>
+<text x="800" y="524" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">0,92</text>
+<circle cx="880" cy="516" r="10" fill="#1FA99B"/>
+<text x="880" y="521" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✓</text>
+<text x="896" y="521" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">atteint</text>
+<text x="1010" y="498" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Les contextes contiennent-ils toutes les infos de la réponse attendue ?</text>
+<text x="1010" y="524" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Compare : contextes retrouvés et réponse attendue.</text>
+<text x="1010" y="550" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : quelques détails manquent (Aurora 0,33, Atlas 0,75).</text>
+<rect x="40" y="594" width="1520" height="40" rx="8" fill="#1B1530"/>
+<text x="60" y="620" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="start">RÉPONSE</text>
+<text x="153" y="620" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#C9BFEA" font-weight="normal" font-style="italic" text-anchor="start">rédiger une réponse fidèle et utile</text>
+<rect x="40" y="646" width="1520" height="110" rx="10" fill="#F2EFF8"/>
+<text x="64" y="690" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Fidélité</text>
+<text x="64" y="716" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">faithfulness</text>
+<rect x="390" y="685" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,685 H753.2922077922078 Q757.2922077922078,685 757.2922077922078,689 V703 Q757.2922077922078,707 753.2922077922078,707 H390 Z" fill="#1FA99B"><title>faithfulness : 0,97 (seuil 0,80)</title></path>
+<line x1="694.0" y1="677" x2="694.0" y2="715" stroke="#1B1530" stroke-width="2.5"/>
+<text x="694.0" y="734" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,8</text>
+<text x="800" y="704" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">0,97</text>
+<circle cx="880" cy="696" r="10" fill="#1FA99B"/>
+<text x="880" y="701" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✓</text>
+<text x="896" y="701" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">atteint</text>
+<text x="1010" y="678" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Chaque affirmation de la réponse est-elle appuyée par les contextes ?</text>
+<text x="1010" y="704" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Compare : réponse générée et contextes. Mesure l'hallucination.</text>
+<text x="1010" y="730" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : le LLM n'invente presque rien.</text>
+<text x="64" y="808" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Pertinence de la réponse</text>
+<text x="64" y="834" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">answer_relevancy</text>
+<rect x="390" y="803" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,803 H635.2668525972964 Q639.2668525972964,803 639.2668525972964,807 V821 Q639.2668525972964,825 635.2668525972964,825 H390 Z" fill="#FF5A4E"><title>answer_relevancy : 0,66 (seuil 0,70)</title></path>
+<line x1="656.0" y1="795" x2="656.0" y2="833" stroke="#1B1530" stroke-width="2.5"/>
+<text x="656.0" y="852" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,7</text>
+<text x="800" y="822" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">0,66</text>
+<circle cx="880" cy="814" r="10" fill="#FF5A4E"/>
+<text x="880" y="819" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✗</text>
+<text x="896" y="819" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">sous le seuil</text>
+<text x="1010" y="796" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">La réponse répond-elle vraiment à la question posée ?</text>
+<text x="1010" y="822" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Le juge déduit des questions de la réponse et les compare à la vraie.</text>
+<text x="1010" y="848" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : fiches recopiées et réponses prudentes pénalisées.</text>
+<rect x="40" y="882" width="1520" height="110" rx="10" fill="#F2EFF8"/>
+<text x="64" y="926" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Exactitude factuelle</text>
+<text x="64" y="952" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">factual_correctness</text>
+<rect x="390" y="921" width="380" height="22" rx="4" fill="#E4DFF0"/>
+<path d="M390,921 H569.0909090909091 Q573.0909090909091,921 573.0909090909091,925 V939 Q573.0909090909091,943 569.0909090909091,943 H390 Z" fill="#FF5A4E"><title>factual_correctness : 0,48 (seuil 0,50)</title></path>
+<line x1="580.0" y1="913" x2="580.0" y2="951" stroke="#1B1530" stroke-width="2.5"/>
+<text x="580.0" y="970" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="middle">seuil 0,5</text>
+<text x="800" y="940" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">0,48</text>
+<circle cx="880" cy="932" r="10" fill="#FF5A4E"/>
+<text x="880" y="937" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold" font-style="normal" text-anchor="middle">✗</text>
+<text x="896" y="937" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1B1530" font-weight="normal" font-style="normal" text-anchor="start">sous le seuil</text>
+<text x="1010" y="914" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1B1530" font-weight="bold" font-style="normal" text-anchor="start">Les faits de la réponse sont-ils ceux de la réponse attendue ?</text>
+<text x="1010" y="940" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Compare : réponse générée et réponse attendue (F1 sur les affirmations).</text>
+<text x="1010" y="966" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#4A3F6B" font-weight="normal" font-style="normal" text-anchor="start">Résultat : réponses plus courtes ou plus longues que la référence.</text>
+<text x="40" y="1032" font-family="Helvetica, Arial, sans-serif" font-size="15"><tspan font-weight="bold" fill="#1B1530">Pourquoi la pertinence est basse :</tspan><tspan fill="#4A3F6B" dx="6">le juge pénalise les réponses qui recopient la fiche au lieu de répondre, et note 0 une réponse prudente (« tarif non précisé »), pourtant correcte.</tspan></text>
+<text x="40" y="1060" font-family="Helvetica, Arial, sans-serif" font-size="15"><tspan font-weight="bold" fill="#1B1530">Un juge LLM varie :</tspan><tspan fill="#4A3F6B" dx="6">factual_correctness a donné 0,51 puis 0,48 sur deux passages identiques.</tspan></text>
+<text x="40" y="1094" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6C757D" font-weight="normal" font-style="italic" text-anchor="start">Source : evaluation/ragas_results.csv · seuils définis dans evaluate_ragas.py</text>
+</svg>
